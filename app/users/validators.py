@@ -1,9 +1,9 @@
 from functools import wraps
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from .schemas import CreateUserParams
 from .models import User
+from .exceptions import UsernameAlreadyExists
 
 
 def validate_user_creation(fn):
@@ -13,7 +13,7 @@ def validate_user_creation(fn):
             select(User).where(User.username == params.username)
         )
         if username:
-            raise HTTPException(409, "Username alread taken")
+            raise UsernameAlreadyExists()
         return fn(params, db_session, *args, **kwargs)
 
     return wrapper
