@@ -114,3 +114,4 @@ cython_debug/
 .vscode
 # macOS automatic files
 .DS_Store
+.idea
